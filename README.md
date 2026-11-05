@@ -128,6 +128,15 @@ If TypeSafe is having a bad day, `JEV_PROVIDER=openrouter` with an
   workers.
 - In development every request and response is logged to the browser console.
 
+## Third-party licenses
+
+- **Stockfish** (`public/stockfish/`) is licensed under the
+  [GNU General Public License v3.0](public/stockfish/COPYING.txt). The engine
+  files are the unmodified `stockfish@19.0.0` npm build. Source:
+  [nmrugg/stockfish.js](https://github.com/nmrugg/stockfish.js) (WebAssembly
+  port) and [official-stockfish/Stockfish](https://github.com/official-stockfish/Stockfish)
+  (upstream engine). See [`public/stockfish/README.md`](public/stockfish/README.md).
+
 ## Project layout
 
 ```

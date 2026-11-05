@@ -22,3 +22,7 @@ for (const file of files) {
   copyFileSync(path.join(from, file), path.join(to, file));
   console.log(`[stockfish] copied ${file}`);
 }
+
+// Stockfish is GPL-3.0: ship its license text alongside the engine files.
+copyFileSync(path.join(from, "..", "Copying.txt"), path.join(to, "COPYING.txt"));
+console.log("[stockfish] copied COPYING.txt");

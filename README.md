@@ -145,15 +145,42 @@ Stockfish engine is licensed separately, as described below.
 ## Project layout
 
 ```
-src/app/            page, layout, and the three API routes (jev, fable, status)
-src/components/     top bar, board panels, eval bar, move list, table, chart, report
-src/lib/jev.ts      Jev System One client (provider-switchable) - server only
-src/lib/fable.ts    Anthropic Messages client - server only
-src/lib/state.ts    the one turn payload both models receive
-src/lib/stockfish.ts  UCI wrapper around one Stockfish Web Worker
-src/lib/useBenchmark.ts  the two game loops, scoring, and series control
-src/lib/metrics.ts  centipawn loss, accuracy, aggregation, combined score
+src/app/                  page, layout, and the three API routes (jev, fable, status)
+src/components/           top bar, board panels, eval bar, move list, table, chart, report
+
+src/lib/useBenchmark.ts   the two game loops, scoring, series control, and default settings
+src/lib/state.ts          the one turn payload both models receive
+src/lib/jev.ts            Jev System One client (provider-switchable, retries) - server only
+src/lib/fable.ts          Anthropic Messages client (illegal-move retries) - server only
+src/lib/route-helpers.ts  request validation, and errors -> HTTP status (400/502/503/504)
+src/lib/errors.ts         MissingApiKeyError / UpstreamError classes
+src/lib/stockfish.ts      UCI wrapper around one Stockfish Web Worker
+src/lib/metrics.ts        centipawn loss, accuracy, move classes, aggregation, combined score
+src/lib/pricing.ts        default per-million-token prices and cost maths
+src/lib/openings.ts       the 10 preset openings used by "Same openings"
+src/lib/csv.ts            Export CSV builder and file download helper
+src/lib/types.ts          shared types (moves, turns, game records, settings)
+src/lib/debug.ts          dev-only console logging (NEXT_PUBLIC_DEBUG)
+src/lib/palette.ts        Jev/Fable series colours for light and dark mode
+src/lib/useIsDark.ts      hook that tracks the current theme
+
+scripts/copy-stockfish.mjs  postinstall: copies the Stockfish WASM build and its license
+public/stockfish/         the Stockfish engine files (GPL-3.0, third-party)
 ```
+
+### Where to change things
+
+| To change | Edit |
+| --- | --- |
+| Default skill level, game count, Same openings, move delay, Stockfish movetime, analysis depth | `DEFAULT_SETTINGS` in `src/lib/useBenchmark.ts` |
+| Skill-level presets in the top bar | `SKILL_LEVELS` in `src/lib/useBenchmark.ts` |
+| 150-move draw cap / turn retries on upstream trouble | `MAX_FULL_MOVES` / `TURN_ATTEMPTS` in `src/lib/useBenchmark.ts` |
+| Default token prices | `DEFAULT_PRICES` in `src/lib/pricing.ts` |
+| Blunder / mistake / inaccuracy thresholds, combined-score weights | `src/lib/metrics.ts` |
+| Preset openings | `OPENINGS` in `src/lib/openings.ts` |
+| What both models are sent each turn | `src/lib/state.ts` |
+| Fable's system prompt, timeout, illegal-move retries | `src/lib/fable.ts` |
+| Jev request shape, timeout, retry/backoff limits | `src/lib/jev.ts` |
 
 ## Scripts
 

@@ -128,6 +128,11 @@ If TypeSafe is having a bad day, `JEV_PROVIDER=openrouter` with an
   workers.
 - In development every request and response is logged to the browser console.
 
+## License
+
+This project's code is released under the [MIT License](LICENSE). The bundled
+Stockfish engine is licensed separately, as described below.
+
 ## Third-party licenses
 
 - **Stockfish** (`public/stockfish/`) is licensed under the
